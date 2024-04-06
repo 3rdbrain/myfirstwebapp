@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+pydantic
+producthunt
+python-dotenv
+requests
+graphene

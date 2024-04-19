@@ -1,18 +1,10 @@
 from typing import Union,List, Dict
-<<<<<<< HEAD
 from fastapi import FastAPI, HTTPException # type: ignore
 from pydantic import BaseModel, ValidationError
 from producthunt import ProductHunt
 from dotenv import load_dotenv
 import requests
 import os, time , httpx
-=======
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, ValidationError
-from producthunt import ProductHunt
-from dotenv import load_dotenv
-import os
->>>>>>> d6b1c3494e0bdda94e02f50c6db0b7bd855cc60f
 
 # Load environment variables from .env file
 load_dotenv()
@@ -31,10 +23,6 @@ class Product(BaseModel):
     Name: str
     Tagline: str
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d6b1c3494e0bdda94e02f50c6db0b7bd855cc60f
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -49,11 +37,8 @@ def read_item(item_id: int, q: Union[str, None] = None):
 def update_item(item_id: int, item: Item):
     return {"item_name": item.name, "item_id": item_id}
 
-<<<<<<< HEAD
 # PH has an sdk so using it directly in the main.py
 # check for regular updates or else move to rest..
-=======
->>>>>>> d6b1c3494e0bdda94e02f50c6db0b7bd855cc60f
 @app.get("/dailyproducts", response_model=List[Product])
 def get_daily_products():
     daily_products_data = ph.get_daily()
@@ -67,7 +52,6 @@ def get_daily_products():
         products = [Product(**product) for product in filtered_products_data]
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=f"Validation error: {e.errors()}")
-<<<<<<< HEAD
     return products
 
 HACKER_NEWS_BASE_URL = "https://hacker-news.firebaseio.com/v0"
@@ -103,7 +87,3 @@ async def get_saas_stories():
             stories.append(story)
     saas_stories = filter_stories_by_keyword(stories, 'SaaS')
     return saas_stories
-=======
-
-    return products
->>>>>>> d6b1c3494e0bdda94e02f50c6db0b7bd855cc60f

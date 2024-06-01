@@ -5,3 +5,4 @@ producthunt
 python-dotenv
 requests
 graphene
+httpx

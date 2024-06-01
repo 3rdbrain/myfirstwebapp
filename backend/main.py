@@ -14,10 +14,6 @@ ph = ProductHunt(api_key)
 
 app = FastAPI()
 
-class Item(BaseModel):
-    name: str
-    price: float
-    is_offer: Union[bool, None] = None
 class Product(BaseModel):
     ID: int
     Name: str
@@ -26,16 +22,6 @@ class Product(BaseModel):
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
-
-
-@app.put("/items/{item_id}")
-def update_item(item_id: int, item: Item):
-    return {"item_name": item.name, "item_id": item_id}
 
 # PH has an sdk so using it directly in the main.py
 # check for regular updates or else move to rest..
@@ -53,10 +39,10 @@ def get_daily_products():
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=f"Validation error: {e.errors()}")
     return products
-
+#-----------------------------------------------------------------------
 HACKER_NEWS_BASE_URL = "https://hacker-news.firebaseio.com/v0"
 
-async def fetch_stories(story_type: str = 'newstories') -> List[int]:
+async def fetch_stories(story_type: str = 'ask') -> List[int]:
     async with httpx.AsyncClient() as client:
         response = await client.get(f"{HACKER_NEWS_BASE_URL}/{story_type}.json")
         if response.status_code != 200:
@@ -79,11 +65,11 @@ def filter_stories_by_keyword(stories: List[dict], keyword: str) -> List[dict]:
 # Endpoint to get latest stories filtered by the keyword "SaaS"
 @app.get("/saas-stories/")
 async def get_saas_stories():
-    story_ids = await fetch_stories('newstories')  # Fetch new stories; can change to 'topstories' or 'beststories'
+    story_ids = await fetch_stories('ask')  # Fetch new stories; can change to 'topstories' or 'beststories'
     stories = []
     for story_id in story_ids[:10]:  # Fetch details for the first 10 stories for quick testing
         story = await fetch_story_details(story_id)
         if story:
             stories.append(story)
-    saas_stories = filter_stories_by_keyword(stories, 'SaaS')
+    saas_stories = filter_stories_by_keyword(stories, 'AI')
     return saas_stories

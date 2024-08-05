@@ -1,0 +1,5 @@
+pyairtable
+fastapi
+pydantic
+dotenv
+requests

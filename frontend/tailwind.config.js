@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     './src/**/*.{html,js,jsx,ts,tsx}', // Adjust the paths according to your project structure
@@ -6,10 +5,11 @@ module.exports = {
   theme: {
     extend: {},
   },
+  darkMode: 'class', // Enable dark mode support with class strategy
   plugins: [
     require('daisyui'),
   ],
   daisyui: {
-    themes: ['light', 'dark', 'cupcake'], // Add or customize themes here
+    themes: ['light', 'dark'], // Add or customize themes here
   },
-}
+};

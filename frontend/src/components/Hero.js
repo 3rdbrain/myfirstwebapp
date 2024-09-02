@@ -18,40 +18,28 @@ export default function Hero() {
 		<div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:w-full lg:pb-28 xl:pb-32">
 		  <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
 			<nav className="relative flex items-center justify-between sm:h-10 lg:justify-between" aria-label="Global">
-			  <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
-				<div className="flex items-center justify-between w-full md:w-auto">
-				  <Link href="/" legacyBehavior>
-					<a>
-					  <span className="sr-only">Your Company</span>
-					  <img className="h-8 w-auto sm:h-10" src="/logo.png" alt="Logo" />
-					</a>
-				  </Link>
-				  <div className="-mr-2 flex items-center md:hidden">
-					<button
-					  type="button"
-					  className="bg-gray-100 p-2 rounded-md inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-					  onClick={() => setMobileMenuOpen(true)}
-					  aria-label="Open main menu"
-					>
-					  <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-					</button>
-				  </div>
-				</div>
-			  </div>
 			  <div className="hidden md:flex md:items-center md:space-x-8">
 				{navigation.map((item) => (
-				  <Link key={item.name} href={item.href} legacyBehavior>
-					<a className="font-medium text-gray-500 hover:text-gray-900">
-					  {item.name}
-					</a>
+				  <Link key={item.name} href={item.href} className="font-medium text-gray-500 hover:text-gray-900">
+					{item.name}
 				  </Link>
 				))}
 				<ThemeSwitcher />
 			  </div>
+			  <div className="md:hidden">
+				<button
+				  type="button"
+				  className="bg-gray-100 p-2 rounded-md inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+				  onClick={() => setMobileMenuOpen(true)}
+				>
+				  <span className="sr-only">Open main menu</span>
+				  <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+				</button>
+			  </div>
 			</nav>
 		  </div>
 
-		  <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)}>
+		  <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
 			<div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
 			  <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
 			  <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
@@ -66,10 +54,8 @@ export default function Hero() {
 					  </Dialog.Title>
 					  <div className="mt-2">
 						{navigation.map((item) => (
-						  <Link key={item.name} href={item.href} legacyBehavior>
-							<a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
-							  {item.name}
-							</a>
+						  <Link key={item.name} href={item.href} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+							{item.name}
 						  </Link>
 						))}
 						<ThemeSwitcher />
@@ -82,7 +68,6 @@ export default function Hero() {
 					type="button"
 					className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
 					onClick={() => setMobileMenuOpen(false)}
-					aria-label="Close menu"
 				  >
 					Close
 				  </button>
@@ -103,17 +88,13 @@ export default function Hero() {
 				</p>
 				<div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
 				  <div className="rounded-md shadow">
-					<Link href="#" legacyBehavior>
-					  <a className="btn btn-primary">
-						Get started
-					  </a>
+					<Link href="#" className="btn btn-primary">
+					  Get started
 					</Link>
 				  </div>
 				  <div className="mt-3 sm:mt-0 sm:ml-3">
-					<Link href="#" legacyBehavior>
-					  <a className="btn btn-secondary">
-						Learn more
-					  </a>
+					<Link href="#" className="btn btn-secondary">
+					  Learn more
 					</Link>
 				  </div>
 				</div>

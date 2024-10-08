@@ -1,15 +1,15 @@
 module.exports = {
   content: [
-    './src/**/*.{html,js,jsx,ts,tsx}', // Adjust the paths according to your project structure
+	'./src/**/*.{html,js,jsx,ts,tsx}', // Adjust the paths according to your project structure
   ],
   theme: {
-    extend: {},
+	extend: {},
   },
   darkMode: 'class', // Enable dark mode support with class strategy
   plugins: [
-    require('daisyui'),
+	require('daisyui'),
   ],
   daisyui: {
-    themes: ['light', 'dark'], // Add or customize themes here
+	themes: ['dark'], // Add or customize themes here
   },
 };

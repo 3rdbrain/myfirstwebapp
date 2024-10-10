@@ -6,7 +6,7 @@ export default function Features() {
 	};
 
 	return (
-		<div className="relative bg-white dark:bg-gray-900 overflow-hidden">
+		<div id="features" className="relative bg-white dark:bg-gray-900 overflow-hidden">
 			<div className="max-w-7xl mx-auto">
 				<div className="relative z-10 pb-8 bg-white dark:bg-gray-900 sm:pb-16 md:pb-20 lg:w-full lg:pb-28 xl:pb-32">
 					<div className="relative pt-6 px-4 sm:px-6 lg:px-8">

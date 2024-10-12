@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from ..models.todos import Todo
-from ..config.database import collection_name
+from ..config.mongodb import collection_name
 from ..schema.schemas import list_serial
 from bson import ObjectId
 

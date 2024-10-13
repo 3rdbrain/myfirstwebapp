@@ -36,20 +36,21 @@ export default function Navbar() {
               </Link>
             </div>
           </div>
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              {navigation.map((item) => (
-                <ScrollLink
-                  key={item.name}
-                  to={item.href}
-                  smooth={true}
-                  duration={500}
-                  className="cursor-pointer text-gray-900 dark:text-gray-100 hover:text-indigo-600"
-                >
-                  {item.name}
-                </ScrollLink>
-              ))}
-            </div>
+          <div className="hidden md:flex items-center space-x-4">
+            {navigation.map((item) => (
+              <ScrollLink
+                key={item.name}
+                to={item.href}
+                smooth={true}
+                duration={500}
+                className="cursor-pointer text-gray-900 dark:text-gray-100 hover:text-indigo-600"
+              >
+                {item.name}
+              </ScrollLink>
+            ))}
+            <Link href="/signup" legacyBehavior>
+              <a className="btn btn-primary">Sign Up</a>
+            </Link>
           </div>
           <div className="-mr-2 flex md:hidden">
             <button

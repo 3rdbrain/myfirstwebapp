@@ -9,19 +9,43 @@ export default function SignUpPage() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('Form submitted:', formData);
+    try {
+      const response = await fetch('http://127.0.0.1:8000/newcustomers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        console.log('Form submitted:', result);
+        // Clear the form fields
+        setFormData({ name: '', email: '' });
+        // Optionally, display a success message or redirect the user
+      } else {
+        console.error('Error:', result);
+        // Handle error (e.g., display error message)
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle network error
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-800">
-      <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md max-w-md w-full">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Sign Up</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <div className="flex items-center justify-center mb-6">
+          <img src="/logo.png" alt="Logo" className="h-12 w-auto mr-2" />
+          <span className="text-3xl font-semibold text-gray-800">Omlette</span>
+        </div>
+        <h2 className="text-3xl font-semibold text-gray-800 mb-6">Sign Up</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-700 dark:text-gray-300 mb-2">Name</label>
+            <label htmlFor="name" className="block text-gray-700 mb-2">Name</label>
             <input
               type="text"
               id="name"
@@ -33,7 +57,7 @@ export default function SignUpPage() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 dark:text-gray-300 mb-2">Email</label>
+            <label htmlFor="email" className="block text-gray-700 mb-2">Email</label>
             <input
               type="email"
               id="email"
@@ -46,9 +70,6 @@ export default function SignUpPage() {
           </div>
           <button type="submit" className="btn btn-primary w-full">Sign Up</button>
         </form>
-        <p className="mt-4 text-center text-gray-600 dark:text-gray-400">
-          Already have an account? <Link href="/login" legacyBehavior><a className="text-indigo-600 dark:text-indigo-400">Log In</a></Link>
-        </p>
         <div className="mt-4 text-center">
           <Link href="/" legacyBehavior>
             <a className="btn btn-secondary">Return Home</a>

@@ -1,8 +1,6 @@
 from fastapi import FastAPI, HTTPException, APIRouter
+from fastapi.middleware.cors import CORSMiddleware
 from .models.cta import CustomerDetails
-from typing import List, Dict
-import httpx
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import os
 from dotenv import load_dotenv
 from .config.mongodb import collection
@@ -13,11 +11,21 @@ load_dotenv()
 app = FastAPI()
 router = APIRouter()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 @app.get("/allcustomers")
 async def get_all_customers():
-    customers = collection.find()
-    return list_cta_serial(customers)
+    try:
+        customers = collection.find()
+        return list_cta_serial(customers)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
 
 @app.post("/newcustomers")
 async def create_customer(details: CustomerDetails):

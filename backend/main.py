@@ -1,41 +1,31 @@
-from fastapi import FastAPI, HTTPException, Depends
-from .Integrations.airtable import fetch_employees
-from .models.Onboardchecklist import Onboardchecklist
-from .models.notiondatabase import NotionDatabaseEntry
+from fastapi import FastAPI, HTTPException, APIRouter
+from .models.cta import CustomerDetails
 from typing import List, Dict
-from .Integrations.notion import query_database
 import httpx
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import os
 from dotenv import load_dotenv
-from .routes.route import router
+from .config.mongodb import collection
+from .schema.schemas import list_cta_serial
+from .models.cta import CustomerDetails
 
 load_dotenv()
-
 app = FastAPI()
-#security = HTTPBearer()
+router = APIRouter()
 
-@app.get("/employees", response_model=List[Onboardchecklist])
-async def get_employees():
+
+@app.get("/allcustomers")
+async def get_all_customers():
+    customers = collection.find()
+    return list_cta_serial(customers)
+
+@app.post("/newcustomers")
+async def create_customer(details: CustomerDetails):
     try:
-        employees = fetch_employees()
-        return employees
-    except Exception as e:
-        return {"error": str(e)}   
-        
-api_token = os.getenv("NOTION_API_TOKEN")    
-@app.get("/database/{database_id}/entries", response_model=List[NotionDatabaseEntry])
-async def get_database_entries(database_id: str):
-    try:
-        entries = await query_database(api_token, database_id)
-    except httpx.HTTPStatusError as exc:
-        raise HTTPException(status_code=exc.response.status_code, detail=exc.response.text)
+        result = collection.insert_one(details.model_dump())
+        return {"status_code": 200, "message": "Customer created successfully"}
     
-    return entries
+    except Exception as e:
+        return HTTPException(status_code=500, detail=f"An error occurred: {e}")
 
 app.include_router(router)
-
-
-
-
-

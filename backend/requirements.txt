@@ -5,4 +5,6 @@ dotenv
 requests
 pymongo[srv]
 fastapi-cors
+googlemaps
+geopy
 

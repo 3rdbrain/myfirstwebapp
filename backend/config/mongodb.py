@@ -19,3 +19,5 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 db = client.cta_db
 collection = db["cta_collection"]
 
+petsdb = client.pets_db
+pets_collection = petsdb["pets_collection"]

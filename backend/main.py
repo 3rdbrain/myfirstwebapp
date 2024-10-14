@@ -57,7 +57,7 @@ async def async_geocode_address(address: str):
     if not location:
         raise HTTPException(status_code=404, detail="Address not found")
     return location["lat"], location["lng"]
-    #return 37.7749, -122.4194
+    return 37.7749, -122.4194
 
 # Create a Pet with Geocoding
 @app.post("/pets/", response_model=PetResponse)
@@ -71,7 +71,6 @@ async def create_pet(pet: PetCreate, user_id: str):
         
         # Geocode the pet's address to get lat/lng
         lat, lng = await async_geocode_address(pet.address)
-        #print(lat, lng)
         
         # Insert the new pet into MongoDB
         pet_data = pet.model_dump()

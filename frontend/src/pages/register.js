@@ -78,10 +78,14 @@ export default function RegisterPage() {
           </div>
           <button type="submit" className="btn btn-primary w-full">Register</button>
         </form>
-        {errorMessage && <div className="mt-4 text-red-600 text-center">{errorMessage}</div>}
+        {errorMessage && (
+          <div className="mt-4 text-red-600 text-center">
+            {typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage)}
+          </div>
+        )}
         {isRegistered && (
           <div className="mt-4 text-center">
-            <Link href="/login">
+            <Link href="/login" legacyBehavior>
               <a className="btn btn-secondary">Go to Login</a>
             </Link>
           </div>

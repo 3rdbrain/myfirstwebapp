@@ -22,3 +22,4 @@ collection = db["cta_collection"]
 
 petsdb = client.pets_db
 pets_collection = petsdb["pets_collection"]
+users_collection = petsdb["users"]

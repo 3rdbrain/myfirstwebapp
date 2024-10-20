@@ -14,9 +14,12 @@ export default function LoginPage() {
       const response = await fetch('http://127.0.0.1:8000/token', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify({ username, password }),
+        body: new URLSearchParams({
+          username,
+          password,
+        }),
       });
 
       const data = await response.json();
@@ -65,7 +68,11 @@ export default function LoginPage() {
           </div>
           <button type="submit" className="btn btn-primary w-full">Login</button>
         </form>
-        {errorMessage && <div className="mt-4 text-red-600 text-center">{errorMessage}</div>}
+        {errorMessage && (
+          <div className="mt-4 text-red-600 text-center">
+            {typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage)}
+          </div>
+        )}
         {isLoggedIn && (
           <div className="mt-4 text-center">
             <Link href="/dashboard" legacyBehavior>

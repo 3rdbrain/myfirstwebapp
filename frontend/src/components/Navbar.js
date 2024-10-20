@@ -9,6 +9,7 @@ const navigation = [
   { name: 'Product', href: 'product' },
   { name: 'Features', href: 'features' },
   { name: 'Pricing', href: 'pricing' },
+  { name: 'Login', href: 'login' },
 ];
 
 export default function Navbar() {
@@ -48,6 +49,10 @@ export default function Navbar() {
                 {item.name}
               </ScrollLink>
             ))}
+
+            <Link href="/login" legacyBehavior>
+              <a className="btn btn-secondary mr-2">Login</a>
+            </Link>
             <Link href="/signup" legacyBehavior>
               <a className="btn btn-primary">Sign Up</a>
             </Link>

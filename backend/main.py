@@ -1,15 +1,15 @@
 from fastapi import FastAPI, HTTPException, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from .models.cta import CustomerDetails
-from .models.pets import UserCreate, UserResponse, PetCreate, PetResponse, NearbyPetResponse
+from .models.pets import UserCreate, UserResponse,PetCreate, PetResponse, NearbyPetResponse
 import os
 from dotenv import load_dotenv
 from geopy.distance import geodesic
 from .config.mongodb import collection, petsdb
 from .schema.schemas import list_cta_serial
-from .Integrations.gmaps import geocode_address,reverse_geocode, async_geocode_address
+from .Integrations.gmaps import async_geocode_address
 from bson import ObjectId
-from motor.motor_asyncio import AsyncIOMotorClient
+#from config.mongodb import pets_collection
 
 
 load_dotenv()
@@ -66,7 +66,7 @@ async def create_pet(pet: PetCreate, user_id: str):
         lat, lng = await async_geocode_address(pet.address)
         
         # Insert the new pet into MongoDB
-        pet_data = pet.dict()
+        pet_data = pet.model_dump()
         pet_data.update({"lat": lat, "lng": lng, "owner_id": user_id})
         result = await petsdb["pets"].insert_one(pet_data)
         
@@ -85,6 +85,41 @@ async def create_pet(pet: PetCreate, user_id: str):
         }
     except HTTPException as e:
         raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
+    
+from typing import List
+
+@app.get("/nearby-pets/", response_model=List[NearbyPetResponse])
+async def get_nearby_pets(address: str, radius_km: float):
+    try:
+        # Geocode the provided address to get lat/lng
+        lat, lng = await async_geocode_address(address)
+        user_location = (lat, lng)
+        nearby_pets = []
+
+        # Fetch all pets from the database
+        pets = await petsdb["pets"].find().to_list(100)  # Adjust the list size as needed
+
+        for pet in pets:
+            pet_location = (pet["lat"], pet["lng"])
+            distance = geodesic(user_location, pet_location).km
+            if distance <= radius_km:
+                nearby_pets.append(NearbyPetResponse(
+                    name=pet["name"],
+                    species=pet["species"],
+                    age=pet["age"],
+                    lat=pet["lat"],
+                    lng=pet["lng"],
+                    distance_km=distance,
+                    owner_email=pet["owner_email"],
+                    address=pet["address"]
+                ))
+
+        if not nearby_pets:
+            raise HTTPException(status_code=404, detail="No pets found nearby")
+
+        return nearby_pets
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
 

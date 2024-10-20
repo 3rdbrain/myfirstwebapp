@@ -30,21 +30,16 @@ class PetCreate(PetBase):
 
 class PetResponse(PetBase):
     id: str
-    name: str
-    breed: str
-    age: int
     lat: float
     lng: float
-    temperament: str
-
-    class Config:
-        orm_mode = True
 
 # For pet matching responses
 class NearbyPetResponse(PetBase):
     name: str
-    breed: str
-    age: int
+    species: str
+    age: Optional[int]
     lat: float
     lng: float
     distance_km: float  # Added in response to show proximity
+    owner_email: EmailStr
+    address: str

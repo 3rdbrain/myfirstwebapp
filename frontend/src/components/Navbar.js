@@ -9,7 +9,6 @@ const navigation = [
   { name: 'Product', href: 'product' },
   { name: 'Features', href: 'features' },
   { name: 'Pricing', href: 'pricing' },
-  { name: 'Login', href: 'login' },
 ];
 
 export default function Navbar() {

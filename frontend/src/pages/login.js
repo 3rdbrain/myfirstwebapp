@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -26,7 +27,7 @@ export default function LoginPage() {
 
       if (response.ok) {
         // Handle successful login
-        setIsLoggedIn(true);
+        router.push('/sniffsocial');
       } else {
         // Display error message
         setErrorMessage(data.detail || 'Login failed. Please try again.');
@@ -71,13 +72,6 @@ export default function LoginPage() {
         {errorMessage && (
           <div className="mt-4 text-red-600 text-center">
             {typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage)}
-          </div>
-        )}
-        {isLoggedIn && (
-          <div className="mt-4 text-center">
-            <Link href="/dashboard" legacyBehavior>
-              <a className="btn btn-secondary">Go to Dashboard</a>
-            </Link>
           </div>
         )}
         <div className="mt-4 text-center">

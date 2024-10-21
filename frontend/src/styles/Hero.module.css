@@ -1,0 +1,15 @@
+.hero {
+    background-color: #3b82f6; /* Tailwind's blue-500 */
+    color: white;
+    padding: 2rem; /* Tailwind's p-8 */
+}
+
+.hero h2 {
+    font-size: 2.25rem; /* Tailwind's text-4xl */
+    font-weight: 600; /* Tailwind's font-semibold */
+}
+
+.hero p {
+    font-size: 1.25rem; /* Tailwind's text-xl */
+    margin-top: 1rem; /* Tailwind's mt-4 */
+}

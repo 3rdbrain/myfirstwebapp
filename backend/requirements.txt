@@ -1,0 +1,10 @@
+pyairtable
+fastapi
+pydantic
+dotenv
+requests
+pymongo[srv]
+fastapi-cors
+googlemaps
+geopy
+
